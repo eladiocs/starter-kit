@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import UserMaster from '@/components/UserMaster.vue';
+import UserList from '@/components/UserList.vue';
 </script>
 
 <template>
-  <UserMaster/>
+  <UserList/>
 </template>
