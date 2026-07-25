@@ -16,7 +16,7 @@ onMounted(() => {
   <div>
     <p v-if="loading" role="status">Cargando productos...</p>
 
-    <!-- <p v-else-if="error" role="alert">{{ error }}</p> -->
+    <p v-else-if="error" role="alert">{{ error }}</p>
 
     <ul v-else>
       <li v-for="product in products" :key="product.id">
