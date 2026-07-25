@@ -51,15 +51,16 @@ onMounted(() => {
 <template>
   <div>
     <input v-model="searchQuery" placeholder="Search here" />
+
     <div v-if="loading">Cargando...</div>
-    <template v-else>
-      <div v-if="filteredUsers && filteredUsers.length > 0">
-        <div v-for="user in filteredUsers" :key="user.id">
-          {{ user.name }} - {{ user.email }}
-        </div>
+
+    <div v-else-if="filteredUsers.length > 0">
+      <div v-for="user in filteredUsers" :key="user.id">
+        {{ user.name }} - {{ user.email }}
       </div>
-      <div v-else>No se encontraron usuarios</div>
-    </template>
+    </div>
+    
+    <div v-else>No se encontraron usuarios</div>
   </div>
 </template>
 
