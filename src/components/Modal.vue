@@ -8,16 +8,20 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const emit = defineEmits<{
-  close: []
-}>()
+const emit = defineEmits(['close', 'update:visible'])
+
+// const emit = defineEmits<{
+//   close: []
+//   'update:visible': [value: boolean]
+// }>()
 
 function cerrar() {
+  emit('update:visible', false)
   emit('close')
 }
 
 function onOverlayClick() {
-  cerrar()
+  //cerrar()
 }
 
 function onKeydown(e: KeyboardEvent) {
