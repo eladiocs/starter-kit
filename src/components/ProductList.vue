@@ -2,6 +2,8 @@
 import { onMounted, ref } from 'vue'
 import { useProducts } from '../composables/useProducts'
 
+//imports → interfaces → props/emits → refs/state → computed → watchers → onMounted/onUnmounted → funciones.
+
 const { products, loading, error, fetchProducts } = useProducts()
 
 onMounted(() => {

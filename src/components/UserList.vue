@@ -3,6 +3,7 @@ import { mapUser, mapUser2 } from '@/utils/mappers';
 import { computed, onMounted, ref, watch } from 'vue';
 import Modal from './Modal.vue';
 
+// imports → interfaces → props/emits → refs/state → computed → watchers → onMounted/onUnmounted → funciones.
 
 interface User {
   id: number
@@ -46,6 +47,12 @@ const errors = ref<Partial<Record<keyof FormState, string>>>({})
 
 let debounceTimer: ReturnType<typeof setTimeout>
 
+const filteredUsers = computed<User[]>(() => {
+  const query = debouncedQuery.value.toLowerCase().trim()
+  if(!query) return users.value
+  return users.value.filter((user: User) => user.name.toLowerCase().includes(query))
+})
+
 watch(searchQuery, (newVal: string) => {
   clearTimeout(debounceTimer)
   debounceTimer = setTimeout(() => {
@@ -53,10 +60,18 @@ watch(searchQuery, (newVal: string) => {
   }, 300)
 })
 
-const filteredUsers = computed<User[]>(() => {
-  const query = debouncedQuery.value.toLowerCase().trim()
-  if(!query) return users.value
-  return users.value.filter((user: User) => user.name.toLowerCase().includes(query))
+// Once at least one field has been touched, keep revalidating live so an
+// error clears the moment the user fixes it, instead of waiting for the
+// next blur or submit.
+watch(form, () => {
+    const anyTouched = (Object.keys(touched.value) as (keyof FormTouched)[]).some((field) => touched.value[field])
+    if (anyTouched) validate()
+  },
+  { deep: true },
+)
+
+onMounted(() => {
+  fetchUsers()
 })
 
 async function fetchUsers(): Promise<void> {
@@ -75,11 +90,7 @@ async function fetchUsers(): Promise<void> {
   }
 }
 
-onMounted(() => {
-  fetchUsers()
-})
-
-function abrirModalCrear(): void {
+function openCreateModal(): void {
   form.value.name = ''
   form.value.email = ''
   touched.value.name = false
@@ -108,16 +119,6 @@ function markTouched(field: keyof FormTouched): void {
   touched.value[field] = true
   validate()
 }
-
-// Once at least one field has been touched, keep revalidating live so an
-// error clears the moment the user fixes it, instead of waiting for the
-// next blur or submit.
-watch(form, () => {
-    const anyTouched = (Object.keys(touched.value) as (keyof FormTouched)[]).some((field) => touched.value[field])
-    if (anyTouched) validate()
-  },
-  { deep: true },
-)
 
 async function crearUsuario(): Promise<void> {
   createError.value = ''
@@ -167,7 +168,7 @@ async function crearUsuario(): Promise<void> {
 
     <div v-else>No se encontraron usuarios</div>
 
-    <button class="mt-4" type="button" @click="abrirModalCrear">Nuevo usuario</button>
+    <button class="mt-4" type="button" @click="openCreateModal">Nuevo usuario</button>
 
     <Modal v-model:visible="modalVisible" titulo="Nuevo usuario">
       <form @submit.prevent="crearUsuario">

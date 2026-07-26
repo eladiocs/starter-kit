@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { watch, onUnmounted } from 'vue'
 
+// imports → interfaces → props/emits → refs/state → computed → watchers → onMounted/onUnmounted → funciones.
+
 interface Props {
   visible: boolean
   titulo: string
@@ -14,19 +16,6 @@ const emit = defineEmits(['close', 'update:visible'])
 //   close: []
 //   'update:visible': [value: boolean]
 // }>()
-
-function cerrar() {
-  emit('update:visible', false)
-  emit('close')
-}
-
-function onOverlayClick() {
-  //cerrar()
-}
-
-function onKeydown(e: KeyboardEvent) {
-  if (e.key === 'Escape') cerrar()
-}
 
 // Solo escuchamos "Escape" mientras el modal está abierto, para no dejar
 // un listener global activo todo el tiempo que la app esté viva.
@@ -45,6 +34,19 @@ watch(
 onUnmounted(() => {
   window.removeEventListener('keydown', onKeydown)
 })
+
+function cerrar() {
+  emit('update:visible', false)
+  emit('close')
+}
+
+function onOverlayClick() {
+  //cerrar()
+}
+
+function onKeydown(e: KeyboardEvent) {
+  if (e.key === 'Escape') cerrar()
+}
 </script>
 
 <template>

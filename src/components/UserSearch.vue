@@ -16,6 +16,13 @@ const searchQuery = ref('')
 const debouncedQuery = ref('')
 
 let debounceTimer: ReturnType<typeof setTimeout>
+
+const filteredUsers = computed(() => {
+  const query = debouncedQuery.value.toLowerCase().trim()
+  if (!query) return users.value
+  return users.value.filter(u => u.name.toLowerCase().includes(query))
+})
+
 watch(searchQuery, (newVal) => {
   clearTimeout(debounceTimer)
   debounceTimer = setTimeout(() => {
@@ -23,11 +30,7 @@ watch(searchQuery, (newVal) => {
   }, 300)
 })
 
-const filteredUsers = computed(() => {
-  const query = debouncedQuery.value.toLowerCase().trim()
-  if (!query) return users.value
-  return users.value.filter(u => u.name.toLowerCase().includes(query))
-})
+onMounted(fetchUsers)
 
 async function fetchUsers() {
   loading.value = true
@@ -51,8 +54,6 @@ function toggleFavorite(id: number) {
     favorites.value.splice(index, 1)
   }
 }
-
-onMounted(fetchUsers)
 </script>
 
 <template>
