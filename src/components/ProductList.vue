@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useProducts } from '../composables/useProducts'
-import Modal from './Modal.vue'
 
 const { products, loading, error, fetchProducts } = useProducts()
-
-const modalVisible = ref<boolean>(false)
 
 onMounted(() => {
   fetchProducts()
@@ -24,8 +21,6 @@ onMounted(() => {
         <span>{{ product.price }} €</span>
       </li>
     </ul>
-    <button class="mt-4" type="button" @click="modalVisible = true">Abrir modal</button>
-    <Modal v-model:visible="modalVisible" titulo="Modal"/>
   </div>
 </template>
 

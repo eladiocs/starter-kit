@@ -58,7 +58,7 @@ onUnmounted(() => {
       <div class="modal" role="dialog" aria-modal="true">
         <header class="modal-header">
           <h3>{{ titulo }}</h3>
-          <button class="cerrar" @click="cerrar" aria-label="Cerrar">✕</button>
+          <button class="close" @click="cerrar" aria-label="Cerrar">✕</button>
         </header>
 
         <div class="modal-body">
@@ -105,5 +105,6 @@ onUnmounted(() => {
   padding: 1rem;
   border-top: 1px solid #eee;
 }
-.cerrar { background: none; border: none; cursor: pointer; font-size: 1rem; }
+.close { background: none; border: none; cursor: pointer; font-size: 1rem; color: #333; transition: color 0.2s ease, transform 0.2s ease; }
+.close:hover { color: #000; transform: scale(1.2); }
 </style>
