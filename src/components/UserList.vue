@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { mapUser, mapUser2 } from '@/utils/mappers';
 import { computed, onMounted, ref, watch } from 'vue';
 
 
@@ -32,11 +33,14 @@ const filteredUsers = computed(() => {
 async function fetchUsers() {
   loading.value = true
   try {
-    const res = await fetch('some-url')
+    const res = await fetch('/api/users')
+
     if(!res.ok) throw new Error('Error fetching users')
-    users.value = await res.json()
+    users.value = (await res.json()).map(mapUser)
+
   } catch(e) {
     console.error(e)
+
   } finally {
     loading.value = false
   }
@@ -50,13 +54,14 @@ onMounted(() => {
 
 <template>
   <div>
-    <input v-model="searchQuery" placeholder="Search here" />
+    <input class="mb-4" v-model="searchQuery" placeholder="Search here" />
 
     <div v-if="loading">Cargando...</div>
 
     <div v-else-if="filteredUsers.length > 0">
       <div v-for="user in filteredUsers" :key="user.id">
         {{ user.name }} - {{ user.email }}
+        <!-- {{ user.name }}  versión mapUser2 donde name incluye email -->
       </div>
     </div>
     
@@ -65,5 +70,12 @@ onMounted(() => {
 </template>
 
 <style scoped>
-
+.mb-4 {
+  margin-bottom: 1rem;
+  width: 100%;
+  max-width: 320px;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
 </style>
