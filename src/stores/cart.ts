@@ -3,8 +3,8 @@ import { ref, computed } from 'vue'
 
 export interface Product {
   id: string
-  price: number
   name: string
+  price: number
 }
 
 export const useCartStore = defineStore('cart', () => {

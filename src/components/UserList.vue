@@ -2,7 +2,7 @@
 import { mapUser, mapUser2 } from '@/utils/mappers';
 import { computed, onMounted, ref, watch } from 'vue';
 import Modal from './Modal.vue';
-
+import { useCartStore } from '@/stores/cart';
 // imports → interfaces → props/emits → refs/state → computed → watchers → onMounted/onUnmounted → funciones.
 
 interface User {
@@ -21,6 +21,10 @@ interface FormTouched {
   email: boolean
 }
 
+//Ejemplo de uso de store
+//cartStore.addItem({ id: '1', name: 'Producto de prueba', price: 10.99 })
+
+const cartStore = useCartStore()
 const users = ref<User[]>([])
 const loading = ref<boolean>(false)
 
