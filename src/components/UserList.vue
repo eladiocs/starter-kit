@@ -217,4 +217,8 @@ async function crearUsuario(): Promise<void> {
   padding: 0.5rem 0.75rem;
   font-size: 1rem;
 }
+.error {
+  color: red;
+  font-size: 0.875rem;
+}
 </style>

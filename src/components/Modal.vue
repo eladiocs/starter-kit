@@ -30,6 +30,8 @@ watch(
   },
   { immediate: true }
 )
+// Sin immediate: true: el callback solo correría cuando props.visible cambie de valor. 
+// Si el modal se monta ya con visible: true, el listener de keydown nunca se añadiría hasta el próximo cambio.
 
 onUnmounted(() => {
   window.removeEventListener('keydown', onKeydown)
@@ -107,6 +109,6 @@ function onKeydown(e: KeyboardEvent) {
   padding: 1rem;
   border-top: 1px solid #eee;
 }
-.close { background: none; border: none; cursor: pointer; font-size: 1rem; color: #333; transition: color 0.2s ease, transform 0.2s ease; }
-.close:hover { color: #000; transform: scale(1.2); }
+.close { background: none; border: none; cursor: pointer; font-size: 1rem; color: #333; transition: color 0.1s ease, transform 0.1s ease; }
+.close:hover { color: #000; transform: scale(1.1); }
 </style>
